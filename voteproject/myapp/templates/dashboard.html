@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - VoteBox</title>
+    <meta name="description" content="Manage your polls and view active voting campaigns on VoteBox dashboard.">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <a href="{% url 'landing' %}" class="logo">
+                    <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="logo-text">VoteBox</span>
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'create_poll' %}" class="btn btn-primary">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Create Poll
+                    </a>
+                    <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding: 3rem 0;">
+        <div class="container">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold mb-2">Welcome back!</h1>
+                <p class="text-xl" style="color: var(--muted-foreground);">Here are your active polls</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="features-grid mb-8">
+                <div class="card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">Total Polls</p>
+                            <p class="text-3xl font-bold">{{ polls.count }}</p>
+                        </div>
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--primary);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">Total Votes</p>
+                            <p class="text-3xl font-bold">
+                               {{ total_votes }}
+                            </p>
+                        </div>
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--secondary);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p style="color: var(--muted-foreground); font-size: 0.875rem;">Active Polls</p>
+                            <p class="text-3xl font-bold">{{ polls|length }}</p>
+                        </div>
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polls List -->
+            <div class="card">
+                <h2 class="text-2xl font-bold mb-4">Your Polls</h2>
+                <div id="polls-list">
+                    {% for poll in polls %}
+                        <div class="card mb-4">
+                            <h3 class="text-xl font-bold">{{ poll.title }}</h3>
+                            <p class="text-muted">{{ poll.description }}</p>
+                            <div class="mt-4 flex gap-4">
+                                <a href="{% url 'poll' poll.id %}" class="btn btn-primary">Vote</a>
+                                <a href="{% url 'results' poll.id %}" class="btn btn-outline">View Results</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No active polls yet. <a href="{% url 'poll' 0 %}">Create one</a>!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'dashboard.js' %}"></script>
+</body>
+</html>

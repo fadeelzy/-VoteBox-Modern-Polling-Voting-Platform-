@@ -1,0 +1,49 @@
+
+---
+
+## 📂 `.gitignore` for Django + MySQL
+
+```gitignore
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# MySQL (avoid committing dumps)
+*.sql
+*.sql.gz
+
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+*.env

@@ -1,0 +1,174 @@
+<!DOCTYPE html>  
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoteBox - Create Polls, Get Results</title>
+    <meta name="description" content="Build engaging polls in seconds. Share with your audience and watch real-time results come to life with beautiful charts.">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <a href="{% url 'landing' %}" class="logo">
+                    <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="logo-text">VoteBox</span>
+                </a>
+                {% if user.is_authenticated %}
+                    <div class="flex items-center gap-4">
+                        <span>Hi, {{ user.username }}</span>
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard</a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline">Logout</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <h1 class="hero-title">
+                        Create Polls,
+                        <span class="hero-gradient">Get Results</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Build engaging polls in seconds. Share with your audience and watch real-time results come to life with beautiful charts.
+                    </p>
+                    <div class="hero-actions">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                        {% else %}
+                            <a href="#auth-section" class="btn btn-primary btn-lg">Get Started Free</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="position: relative;">
+                    <img src="{% static 'votehero.png' %}" alt="VoteBox polling interface" class="hero-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold mb-4">Why Choose VoteBox?</h2>
+                <p class="text-xl" style="color: var(--muted-foreground);">Everything you need to create engaging polls and surveys</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="card">
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p>Create polls in under 30 seconds.</p>
+                </div>
+                <div class="card">
+                    <h3 class="feature-title">Beautiful Charts</h3>
+                    <p>Real-time visual results.</p>
+                </div>
+                <div class="card">
+                    <h3 class="feature-title">Share Anywhere</h3>
+                    <p>Reach your audience easily.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Section -->
+    {% if not user.is_authenticated %}
+    <section id="auth-section" style="padding: 5rem 0;">
+        <div class="container" style="max-width: 28rem;">
+            <div class="card card-glow">
+                <div class="text-center mb-4">
+                    <h2 class="text-2xl font-bold mb-2">Join VoteBox Today</h2>
+                    <p style="color: var(--muted-foreground);">Start creating polls in minutes</p>
+                </div>
+
+                <!-- Show Django messages -->
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="tabs">
+                    <div class="tabs-list">
+                        <button class="tabs-trigger active" onclick="showTab('signup')">Sign Up</button>
+                        <button class="tabs-trigger" onclick="showTab('login')">Login</button>
+                    </div>
+                    <!-- Signup Form -->
+                    <div id="signup-tab" class="tab-content">
+                        <form method="POST" action="{% url 'signup' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="username" class="form-label">Username</label>
+                                <input id="username" name="username" type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input id="email" name="email" type="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password1" class="form-label">Password</label>
+                                <input id="password1" name="password1" type="password" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password2" class="form-label">Confirm Password</label>
+                                <input id="password2" name="password2" type="password" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full">Create Account</button>
+                        </form>
+                    </div>
+                    <!-- Login Form -->
+                    <div id="login-tab" class="tab-content hidden">
+                        <form method="POST" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="login-username" class="form-label">Username</label>
+                                <input id="login-username" name="username" type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password" class="form-label">Password</label>
+                                <input id="login-password" name="password" type="password" class="form-input" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border); padding: 3rem 0;">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--primary);">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-lg font-bold">VoteBox</span>
+                </div>
+                <p style="color: var(--muted-foreground);">&copy; 2024 VoteBox. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'landing.js' %}"></script>
+</body>
+</html>

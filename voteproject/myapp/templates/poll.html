@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% if creating %}Create Poll - VoteBox{% else %}{{ poll.title }} - VoteBox{% endif %}</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
+        <a href="{% url 'landing' %}" class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="logo-text">VoteBox</span>
+        </a>
+        <div class="flex items-center gap-4">
+          <a href="{% url 'dashboard' %}" class="btn btn-outline">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding:3rem 0;">
+    <div class="container" style="max-width:42rem;">
+      <div class="card card-glow">
+        <div class="text-center mb-6">
+          {% if creating %}
+            <h1 class="text-3xl font-bold mb-2">Create New Poll</h1>
+            <p class="text-lg" style="color:var(--muted-foreground)">Fill in the details to create your poll</p>
+          {% else %}
+            <h1 class="text-3xl font-bold mb-2">{{ poll.title }}</h1>
+            <p class="text-lg" style="color:var(--muted-foreground)">{{ poll.description }}</p>
+          {% endif %}
+        </div>
+
+        {# CREATE MODE #}
+        {% if creating %}
+          <form method="POST" action="{% url 'create_poll' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="poll-title" class="form-label">Poll Title</label>
+              <input id="poll-title" name="title" type="text" class="form-input" placeholder="What's your question?" maxlength="200" required>
+            </div>
+
+            <div class="form-group">
+              <label for="poll-description" class="form-label">Description (optional)</label>
+              <textarea id="poll-description" name="description" class="form-input" rows="3" maxlength="500" placeholder="Add context..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Options</label>
+              <div id="options-container">
+                <div class="option-row" style="display:flex; gap:.5rem; margin-bottom:.5rem;">
+                  <input type="text" name="options" class="form-input" placeholder="Option 1" required maxlength="200" style="flex:1;">
+                  <button type="button" class="btn btn-ghost" onclick="removeOption(this)" title="Remove option">✕</button>
+                </div>
+                <div class="option-row" style="display:flex; gap:.5rem; margin-bottom:.5rem;">
+                  <input type="text" name="options" class="form-input" placeholder="Option 2" required maxlength="200" style="flex:1;">
+                  <button type="button" class="btn btn-ghost" onclick="removeOption(this)" title="Remove option">✕</button>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-outline w-full" onclick="addOption()">+ Add Option</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full" style="margin-top:1rem;">Create Poll</button>
+          </form>
+
+        {# VOTE MODE #}
+        {% else %}
+          <form method="POST" action="{% url 'poll' poll.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="form-label">Choose an option</label>
+              <div>
+                {% for opt in poll.options.all %}
+                  <label style="display:flex; align-items:center; gap:.5rem; margin-bottom:.5rem;">
+                    <input type="radio" name="option" value="{{ opt.id }}" required>
+                    <span>{{ opt.text }}</span>
+                    <small style="color:var(--muted-foreground); margin-left:auto;">({{ opt.votes.count }} votes)</small>
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div style="display:flex; gap:.75rem; margin-top:1rem;">
+              <button type="submit" class="btn btn-primary">Vote</button>
+              <a href="{% url 'results' poll.id %}" class="btn btn-outline">View Results</a>
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </main>
+
+  {# JS used by create form (and safe when viewing poll) #}
+  <script>
+    function addOption(){
+      const container = document.getElementById('options-container');
+      const row = document.createElement('div');
+      row.className = 'option-row';
+      row.style = 'display:flex; gap:.5rem; margin-bottom:.5rem;';
+      row.innerHTML = `
+        <input type="text" name="options" class="form-input" placeholder="New option" maxlength="200" style="flex:1;" required>
+        <button type="button" class="btn btn-ghost" onclick="removeOption(this)" title="Remove option">✕</button>
+      `;
+      container.appendChild(row);
+    }
+    function removeOption(btn){
+      const row = btn.closest('.option-row');
+      if(!row) return;
+      const container = document.getElementById('options-container');
+      // keep at least 2 option fields visible
+      if(container.querySelectorAll('.option-row').length <= 2){
+        // clear the field instead of removing
+        row.querySelector('input[name="options"]').value = '';
+        return;
+      }
+      row.remove();
+    }
+  </script>
+
+  {# pollData for client-side charts when viewing a poll #}
+  {% if not creating and poll %}
+    <script>
+      const pollData = {
+        id: {{ poll.id }},
+        title: "{{ poll.title|escapejs }}",
+        description: "{{ poll.description|escapejs }}",
+        isActive: {{ poll.is_active|yesno:"true,false" }},
+        created_at: "{{ poll.created_at|date:'Y-m-d H:i:s' }}",
+        totalVotes: {{ poll.total_votes }},
+        options: [
+          {% for opt in poll.options.all %}
+            { id: {{ opt.id }}, text: "{{ opt.text|escapejs }}", votes: {{ opt.votes.count }} }{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        ]
+      };
+      // results.js or chart code can use pollData
+      // console.log('pollData', pollData);
+    </script>
+  {% endif %}
+
+</body>
+</html>

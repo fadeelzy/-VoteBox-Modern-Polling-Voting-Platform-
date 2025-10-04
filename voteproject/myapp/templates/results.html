@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll Results - VoteBox</title>
+    <meta name="description" content="View detailed poll results with interactive charts and analytics on VoteBox.">
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <a href="landing.html" class="logo">
+                    <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="logo-text">VoteBox</span>
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{% url 'dashboard' %}"  class="btn btn-outline">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Back to Dashboard
+                    </a>
+                    <button class="btn btn-primary" 
+                            id="share-button"
+                            data-url="{% url 'poll' poll.id %}"
+                            onclick="sharePoll()">
+                       <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                   d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
+                        </svg>
+                       Share Poll 
+                   </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main style="padding: 3rem 0;">
+        <div class="container" style="max-width: 56rem;">
+            <!-- Poll Info -->
+            <div class="text-center mb-8">
+                <h1 id="poll-title" class="text-4xl font-bold mb-2">Loading...</h1>
+                <p id="poll-description" class="text-xl" style="color: var(--muted-foreground); margin-bottom: 2rem;">Loading...</p>
+                
+                <div class="flex items-center justify-center gap-6" style="font-size: 1rem; color: var(--muted-foreground);">
+                    <div class="flex items-center gap-2">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                        </svg>
+                        <span id="total-votes">{{ total_votes }} total votes</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span id="poll-date">Today</span>
+                    </div>
+                    <div id="poll-status" class="status-badge status-active">Active</div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4">Vote Distribution</h3>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4">Vote Share</h3>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Results -->
+            <div class="card">
+                <h2 class="text-2xl font-bold mb-6">Detailed Results</h2>
+                <div id="detailed-results">
+                    <!-- Detailed results will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-4 mt-8">
+                <a href="{% url 'poll' poll.id %}" id="vote-link" class="btn btn-primary">Vote on this Poll</a>
+                <button class="btn btn-outline" onclick="exportResults()">Export Results</button>
+                <button class="btn btn-outline" onclick="embedPoll()">Embed Poll</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ✅ Safe JSON Embed -->
+    {{ poll_data|json_script:"poll-data" }}
+
+    <!-- ✅ Parse JSON for results.js -->
+    <script>
+        const pollData = JSON.parse(document.getElementById("poll-data").textContent);
+    </script>
+    <script src="{% static 'results.js' %}"></script>
+</body>
+</html>
