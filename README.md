@@ -43,7 +43,9 @@ IAM & Security Groups for least-privilege access.
 
 CI/CD with GitHub Actions → AWS CodeDeploy.
 
+
 ## 📌 You can extend deployment with Elastic Beanstalk or ECS + Fargate for containerization.
+
 
 ## 🔥 Why This Project Stands Out
 
@@ -54,6 +56,7 @@ Uses MySQL, making it closer to enterprise setups (instead of default SQLite).
 End-to-end system: Authentication, Polling, Voting, Results, Sharing, Embedding.
 
 Designed with Site Reliability Engineering (SRE) principles: fault tolerance, CI/CD readiness, observability hooks.
+
 
 ## 🧑‍💻 About Me
 
@@ -67,6 +70,7 @@ Designed with Site Reliability Engineering (SRE) principles: fault tolerance, CI
 
 📈 Experienced in monitoring, logging, and automation for highly available systems.
 
+
 ## ⭐ Show Your Support
 
 If you like this project:
@@ -74,7 +78,6 @@ If you like this project:
 Star ⭐ the repo
 
 Fork 🍴 and experiment
-
 
 ## 🚀 Getting Started  
 
