@@ -29,48 +29,6 @@ VoteBox empowers users to **create polls, vote in real-time, and analyze results
 | Reliability    | CI/CD pipelines, error handling, production-ready configs |
 
 ---
-
-## 🚀 Getting Started  
-
-### 1️⃣ Clone Repository  
-```bash
-git clone https://github.com/<your-username>/votebox.git
-cd votebox
-
-2️⃣ Setup Virtual Environment
-python -m venv venv
-source venv/bin/activate   # Linux/Mac
-venv\Scripts\activate      # Windows
-
-3️⃣ Install Dependencies
-pip install -r requirements.txt
-
-4️⃣ Configure Database
-
-Update your MySQL credentials in settings.py:
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'votebox_db',
-        'USER': 'your_mysql_user',
-        'PASSWORD': 'your_mysql_password',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
-
-Run migrations:
-
-python manage.py migrate
-
-5️⃣ Start the App
-python manage.py runserver
-
-
-Visit http://127.0.0.1:8000/
-
 ##  ☁️ Deployment on AWS
 
 This project is designed with AWS best practices:
@@ -117,5 +75,46 @@ Star ⭐ the repo
 
 Fork 🍴 and experiment
 
-Connect with me on linkedin.com/in/fadilah-abdulkadir-378a47269
- 
+
+## 🚀 Getting Started  
+
+### 1️⃣ Clone Repository  
+```bash
+git clone https://github.com/<your-username>/votebox.git
+cd votebox
+
+2️⃣ Setup Virtual Environment
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+
+3️⃣ Install Dependencies
+pip install -r requirements.txt
+
+4️⃣ Configure Database
+
+Update your MySQL credentials in settings.py:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'votebox_db',
+        'USER': 'your_mysql_user',
+        'PASSWORD': 'your_mysql_password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
+
+Run migrations:
+
+python manage.py migrate
+
+5️⃣ Start the App
+python manage.py runserver
+
+
+Visit http://127.0.0.1:8000/
+
+
