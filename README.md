@@ -71,7 +71,7 @@ python manage.py runserver
 
 Visit http://127.0.0.1:8000/
 
-☁️ Deployment on AWS
+##  ☁️ Deployment on AWS
 
 This project is designed with AWS best practices:
 
@@ -85,9 +85,9 @@ IAM & Security Groups for least-privilege access.
 
 CI/CD with GitHub Actions → AWS CodeDeploy.
 
-📌 You can extend deployment with Elastic Beanstalk or ECS + Fargate for containerization.
+## 📌 You can extend deployment with Elastic Beanstalk or ECS + Fargate for containerization.
 
-🔥 Why This Project Stands Out
+## 🔥 Why This Project Stands Out
 
 Written by a Backend Engineer & AWS Solutions Architect, ensuring cloud scalability and production reliability.
 
@@ -97,7 +97,7 @@ End-to-end system: Authentication, Polling, Voting, Results, Sharing, Embedding.
 
 Designed with Site Reliability Engineering (SRE) principles: fault tolerance, CI/CD readiness, observability hooks.
 
-🧑‍💻 About Me
+## 🧑‍💻 About Me
 
 👋 Hi, I’m Fadilah Abdulkadir – Backend Engineer | AWS Cloud Solutions Architect | Site Reliability Engineer.
 
@@ -109,7 +109,7 @@ Designed with Site Reliability Engineering (SRE) principles: fault tolerance, CI
 
 📈 Experienced in monitoring, logging, and automation for highly available systems.
 
-⭐ Show Your Support
+## ⭐ Show Your Support
 
 If you like this project:
 
