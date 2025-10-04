@@ -17,6 +17,17 @@ VoteBox empowers users to **create polls, vote in real-time, and analyze results
 
 ---
 
+## 📸 Screenshots
+
+### 🏠 Dashboard
+![Dashboard](screenshots/votebox-dashboard.png)
+
+### 📊 Poll Results
+![Poll Results](screenshots/votebox-result-page.png)
+
+### 🗳️ Create Poll Page
+![Create Poll](screenshots/votebox-create-page.png)
+
 ## 🏗️ Tech Stack  
 
 | Layer          | Tech Used |
