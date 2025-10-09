@@ -89,7 +89,7 @@ def logout_view(request):
     messages.success(request, "Logged out successfully.")
     return redirect("landing")
 
-@login_required(login_url="landing") 
+
 def create_poll(request):
     """Handles new poll creation using poll.html template."""
     if request.method == "POST":
