@@ -2,7 +2,7 @@ services:
   web:
     build: .
     container_name: votebox_web
-    command: gunicorn voteproject.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn voteproject.wsgi:application --bind 0.0.0.0:$PORT
     ports:
       - "8000:8000"
     env_file:

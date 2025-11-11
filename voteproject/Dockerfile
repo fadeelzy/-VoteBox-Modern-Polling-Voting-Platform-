@@ -23,4 +23,4 @@ COPY voteproject .
 RUN python manage.py collectstatic --noinput
 
 # Run Gunicorn
-CMD ["sh", "-c", "gunicorn expenseproject.wsgi:application --bind 0.0.0.0:$PORT"]
+CMD ["sh", "-c", "gunicorn voteproject.wsgi:application --bind 0.0.0.0:$PORT"]
