@@ -30,7 +30,7 @@ class Option(models.Model):
 
 class Vote(models.Model):
     option = models.ForeignKey(Option, on_delete=models.CASCADE, related_name="votes")
-    voted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="votes")
+    voted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     voted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

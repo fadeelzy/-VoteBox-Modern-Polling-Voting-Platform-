@@ -116,7 +116,6 @@ def create_poll(request):
 
     # GET request → show empty poll.html as form
     return render(request, "poll.html", {"creating": True})
-
 def poll(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     options = poll.options.all()
@@ -142,8 +141,11 @@ def poll(request, poll_id):
         if option_id:
             option = get_object_or_404(Option, id=option_id, poll=poll)
 
-            # ✅ Fix: add voted_by
-            Vote.objects.create(option=option, voted_by=request.user)
+            # Allow anonymous voting
+            Vote.objects.create(
+                option=option,
+                voted_by=request.user if request.user.is_authenticated else None
+            )
 
             return redirect("results", poll_id=poll.id)
 
