@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     {% empty %}
-                        <p>No active polls yet. <a href="{% url 'poll' 0 %}">Create one</a>!</p>
+                        <p>No active polls yet. <a href="{% url 'create_poll' %}">Create one</a>!</p>
                     {% endfor %}
                 </div>
             </div>
