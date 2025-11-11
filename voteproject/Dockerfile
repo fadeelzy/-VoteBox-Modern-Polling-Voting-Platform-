@@ -12,12 +12,12 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install
-COPY requirements.txt .
+COPY voteproject/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Copy project files
-COPY . .
+COPY voteproject .
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
