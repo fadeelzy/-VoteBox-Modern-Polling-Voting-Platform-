@@ -1,7 +1,7 @@
 
 ---
 
-## 📂 `.gitignore` for Django + MySQL
+## 📂 `.gitignore` for Django 
 
 ```gitignore
 # Python
@@ -27,8 +27,7 @@ env/
 *.pyc
 __pycache__/
 db.sqlite3
-media/
-staticfiles/
+
 
 # MySQL (avoid committing dumps)
 *.sql
