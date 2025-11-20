@@ -1,6 +1,6 @@
 # 🗳️ VoteBox – Modern Polling & Voting Platform  
 
-A full-stack **polling application** built with Django, MySQL, and a clean frontend UI.  
+A full-stack **polling application** built with Django, Postgresql, and a clean frontend UI.  
 VoteBox empowers users to **create polls, vote in real-time, and analyze results** with beautiful charts – all deployed on a scalable cloud-ready stack.  
 
 ---
@@ -22,7 +22,7 @@ VoteBox empowers users to **create polls, vote in real-time, and analyze results
 | Layer          | Tech Used |
 |----------------|-----------|
 | Backend        | Django 5.x |
-| Database       | MySQL |
+| Database       | POSGRETSQL(AWS) |
 | Frontend       | HTML, CSS, JavaScript (with Chart.js for analytics) |
 | Auth           | Django Auth |
 | Cloud Ready    | AWS (EC2, RDS, S3) |
